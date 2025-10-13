@@ -1,11 +1,13 @@
 <div class="group relative">
     <div class="space-y-2 p-4 rounded-2xl group group-hover:blur-sm">
-        <img src="{{ asset('storage/' . $portfolio->image_path) }}" alt="Blog Item" width={700} height={700}
-            class="rounded-lg" />
-        <h2 class="text-xl font-bold line-clamp-2 text-base-content">{{ $portfolio->title }}</h2>
-        <p class="line-clamp-4 text-sm text-base-content/50">
-            {{ $portfolio->description }}
-        </p>
+        <img src="{{ asset('storage/' . $portfolio->image_path) }}" alt="Blog Item"
+            class="rounded-lg h-48 w-full object-cover" />
+        <div class="h-26 space-y-2">
+            <h2 class="text-xl font-bold line-clamp-2 text-base-content">{{ $portfolio->title }}</h2>
+            <p class="line-clamp-3 text-sm text-base-content/50">
+                {{ $portfolio->description }}
+            </p>
+        </div>
         <div class="flex gap-2 justify-end">
             <x-badge value="{{ $portfolio->status }}" class="badge-primary" />
         </div>

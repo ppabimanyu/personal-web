@@ -16,8 +16,8 @@ new class extends Component {
         }
     }
 };
-?>
 
+?>
 <div>
     <div class="prose prose-slate mx-auto max-w-4xl mb-32">
         <h1 class="text-4xl font-bold mt-4">{{ $post->title }}</h1>
@@ -25,7 +25,8 @@ new class extends Component {
             {{ $post->published_at->format('F j, Y') }}
         </p>
         <p class="text-base-content/50">{{ $post->description }}</p>
-        <img src="{{ asset('storage/' . $post->image_path) }}" alt="Thumbnail" class="rounded-lg" />
+        <img src="{{ asset('storage/' . $post->image_path) }}" alt="Thumbnail"
+            class="rounded-lg max-h-80 w-full object-cover" />
         <hr>
         {!! Str::markdown($post->content) !!}
     </div>
