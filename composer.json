@@ -7,12 +7,18 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "charrafimed/global-search-modal": "^4.2",
         "filament/filament": "^4.0",
+        "hydrat/filament-table-layout-toggle": "^3.0",
+        "jeffgreco13/filament-breezy": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6",
         "livewire/volt": "^1.7",
+        "pxlrbt/filament-activity-log": "^2.0",
+        "pxlrbt/filament-environment-indicator": "^3.2",
         "robsontenorio/mary": "^2.4",
+        "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-markdown": "^2.7"
     },
     "require-dev": {

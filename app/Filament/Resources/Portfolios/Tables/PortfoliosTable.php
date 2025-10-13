@@ -2,14 +2,22 @@
 
 namespace App\Filament\Resources\Portfolios\Tables;
 
+use App\Filament\Resources\Portfolios\PortfolioResource;
+use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\TextSize;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\RecordActionsPosition;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class PortfoliosTable
@@ -17,62 +25,57 @@ class PortfoliosTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
+            ])
             ->columns([
-                TextColumn::make('status')
-                    ->icon(fn ($record) => match ($record->status) {
-                        'draft' => 'heroicon-o-pencil',
-                        'archived' => 'heroicon-o-archive-box',
-                        'on_progress' => 'heroicon-o-clock',
-                        default => null,
-                    })
-                    ->color(fn (string $state): string => match ($state) {
-                        'on_progress' => 'warning',
-                        'draft' => 'primary',
-                        'archived' => 'danger',
-                        default => 'gray',
-                    })
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('title')
-                    ->searchable(),
-                ImageColumn::make('image_path')
-                    ->disk('public')
-                    ->label('Thumbnail'),
-                TextColumn::make('project_url')
-                    ->url(fn ($record) => $record->project_url, true)
-                    ->color('primary')
-                    ->searchable(),
-                TextColumn::make('github_url')
-                    ->url(fn ($record) => $record->github_url, true)
-                    ->color('primary')
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Stack::make([
+                    ImageColumn::make('image_path')
+                        ->imageWidth('100%')
+                        ->imageHeight(200)
+                        ->disk('public'),
+                    TextColumn::make('title')
+                        ->lineClamp(2)
+                        ->size(TextSize::Large)
+                        ->weight(FontWeight::Bold)
+                        ->searchable(),
+                    TextColumn::make('description')
+                        ->lineClamp(3),
+                    TextColumn::make('status')
+                        ->color(fn (string $state): string => match ($state) {
+                            'on_progress' => 'warning',
+                            'draft' => 'primary',
+                            'archived' => 'danger',
+                            default => 'gray',
+                        })
+                        ->badge(),
+                ])->space(2),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'reviewing' => 'Reviewing',
+                        'published' => 'Published',
+                    ]),
             ])
             ->recordActions([
                 ActionGroup::make([
-                    ActionGroup::make([
-                        ViewAction::make(),
-                        EditAction::make(),
-                    ])->dropdown(false),
+                    ViewAction::make(),
+                    EditAction::make(),
+                    Action::make('activities')
+                        ->url(fn ($record) => PortfolioResource::getUrl('activities', ['record' => $record]))
+                        ->icon(Heroicon::OutlinedClock),
                     ActionGroup::make([
                         DeleteAction::make(),
                     ])->dropdown(false),
                 ]),
-            ])
+            ], position: RecordActionsPosition::BeforeColumns)
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                // BulkActionGroup::make([
+                //     DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 }
