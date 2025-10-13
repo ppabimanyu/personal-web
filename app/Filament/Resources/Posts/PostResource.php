@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts;
 
+use App\Filament\Resources\OrderResource\Pages\ListPostActivities;
 use App\Filament\Resources\Posts\Pages\CreatePost;
 use App\Filament\Resources\Posts\Pages\EditPost;
 use App\Filament\Resources\Posts\Pages\ListPosts;
@@ -53,6 +54,7 @@ class PostResource extends Resource
             'create' => CreatePost::route('/create'),
             'view' => ViewPost::route('/{record}'),
             'edit' => EditPost::route('/{record}/edit'),
+            'activities' => ListPostActivities::route('/{record}/activities'),
         ];
     }
 }
